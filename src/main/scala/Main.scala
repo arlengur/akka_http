@@ -19,7 +19,8 @@ object Main extends App {
 
   val todoRepository = new InMemoryTodoRepository(Seq(
     Todo("1", "Read SB", "Get the book and read", done = false),
-    Todo("2", "Temple", "Go to the temple", done = false)
+    Todo("2", "Temple", "Go to the temple", done = false),
+    Todo("3", "MA", "Go to the mangala-arati", done = true)
   ))
   val router = new TodoRouter(todoRepository)
   val server = new Server(router, host, port)
