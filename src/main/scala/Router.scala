@@ -13,7 +13,6 @@ class TodoRouter(todoRepository: TodoRepository) extends Router with Directives 
     * pathPrefix - matches a prefix of the remaining path after a leading slash
     * GET: /todos -> pathPrefix("todos")
     */
-  // GET: /todos ->
   override def route: Route = pathPrefix("todos") {
     // pathEndOrSingleSlash - to matches a path that has been matches completely or only consist of a leading slash
     // so it would match /todos
