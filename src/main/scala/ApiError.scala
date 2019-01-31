@@ -7,5 +7,7 @@ object ApiError {
 
   val generic: ApiError = new ApiError(StatusCodes.InternalServerError, "Unknown error")
 
-  def emptyTitleField: ApiError = new ApiError(StatusCodes.BadRequest, "The title field does not be empty.")
+  val emptyTitleField: ApiError = new ApiError(StatusCodes.BadRequest, "The title field does not be empty.")
+
+  def todoNotFound(id: String): ApiError = new ApiError(StatusCodes.NotFound, s"The todo with id $id could not be found.")
 }
