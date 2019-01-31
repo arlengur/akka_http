@@ -1,13 +1,10 @@
-import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.{Directives, Route}
-
-import scala.util.{Failure, Success}
 
 trait Router {
   def route: Route
 }
 
-class TodoRouter(todoRepository: TodoRepository) extends Router with Directives with TodoDirectives {
+class TodoRouter(todoRepository: TodoRepository) extends Router with Directives with TodoDirectives with ValidatorDirectives {
   // libraries for JSON encoding and decoding for our models
   import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
   import io.circe.generic.auto._
@@ -22,18 +19,15 @@ class TodoRouter(todoRepository: TodoRepository) extends Router with Directives 
     pathEndOrSingleSlash {
       // get only accepts GET requests and rejects all others
       get {
-        handleWithGeneric(todoRepository.all()) {
-          todos => complete(todos)
+        handleWithGeneric(todoRepository.all()) { todos =>
+          complete(todos)
         }
       } ~ post {
         entity(as[CreateTodo]) { createTodo =>
-          TodoValidator.validate(createTodo) match {
-            case Some(apiError) =>
-              complete(apiError.statusCode, apiError.message)
-            case None =>
-              handleWithGeneric(todoRepository.save(createTodo)) { todo =>
-                complete(todo)
-              }
+          validateWith(CreateTodoValidator)(createTodo) {
+            handleWithGeneric(todoRepository.save(createTodo)) { todos =>
+              complete(todos)
+            }
           }
         }
       }
