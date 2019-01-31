@@ -6,7 +6,7 @@ trait TodoRepository {
   def all():Future[Seq[Todo]]
   def done():Future[Seq[Todo]]
   def pending():Future[Seq[Todo]]
-  def create(createTodo: CreateTodo):Future[Todo]
+  def save(createTodo: CreateTodo):Future[Todo]
 }
 
 class InMemoryTodoRepository(initialTodos: Seq[Todo] = Seq.empty)(implicit ec: ExecutionContext) extends TodoRepository {
@@ -18,7 +18,7 @@ class InMemoryTodoRepository(initialTodos: Seq[Todo] = Seq.empty)(implicit ec: E
 
   override def pending(): Future[Seq[Todo]] = Future.successful(todos.filterNot(_.done))
 
-  override def create(createTodo: CreateTodo): Future[Todo] = Future.successful {
+  override def save(createTodo: CreateTodo): Future[Todo] = Future.successful {
     val todo = Todo(
       UUID.randomUUID().toString,
       createTodo.title,

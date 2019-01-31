@@ -61,7 +61,7 @@ class TodoRouterListSpec extends WordSpec with Matchers with ScalatestRouteTest 
       // send GET request
       Get("/todos") ~> router.route -> check {
         // we expect response 500
-        status shouldBe StatusCodes.InternalServerError
+        status shouldBe ApiError.generic.statusCode
         val resp = responseAs[String]
         resp shouldBe ApiError.generic.message
       }
@@ -74,7 +74,7 @@ class TodoRouterListSpec extends WordSpec with Matchers with ScalatestRouteTest 
       // send GET request
       Get("/todos/done") ~> router.route -> check {
         // we expect response 500
-        status shouldBe StatusCodes.InternalServerError
+        status shouldBe ApiError.generic.statusCode
         val resp = responseAs[String]
         resp shouldBe ApiError.generic.message
 
@@ -88,7 +88,7 @@ class TodoRouterListSpec extends WordSpec with Matchers with ScalatestRouteTest 
       // send GET request
       Get("/todos/pending") ~> router.route -> check {
         // we expect response 500
-        status shouldBe StatusCodes.InternalServerError
+        status shouldBe ApiError.generic.statusCode
         val resp = responseAs[String]
         resp shouldBe ApiError.generic.message
       }
