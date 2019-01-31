@@ -7,7 +7,7 @@ trait Router {
   def route: Route
 }
 
-class TodoRouter(todoRepository: TodoRepository) extends Router with Directives {
+class TodoRouter(todoRepository: TodoRepository) extends Router with Directives with TodoDirectives {
   // libraries for JSON encoding and decoding for our models
   import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
   import io.circe.generic.auto._
@@ -22,20 +22,20 @@ class TodoRouter(todoRepository: TodoRepository) extends Router with Directives 
     pathEndOrSingleSlash {
       // get only accepts GET requests and rejects all others
       get {
-        onComplete(todoRepository.all()) {
-          case Success(todos) =>
-            complete(todos)
-          case Failure(exception) =>
-            println(exception.getMessage)
-            complete(ApiError.generic.statusCode, ApiError.generic.message)
+        handleWithGeneric(todoRepository.all()) {
+          todos => complete(todos)
         }
       }
       // ~ - chains two routes together, if the first one rejects the request, it gives the second route a chance to match it
       // path - matches the remaining path after consuming a leading slash
     } ~ path("done") {
-      complete(todoRepository.done())
+      handleWithGeneric(todoRepository.done()) {
+        todos => complete(todos)
+      }
     } ~ path("pending") {
-      complete(todoRepository.pending())
+      handleWithGeneric(todoRepository.pending()) {
+        todos => complete(todos)
+      }
     }
   }
 }
