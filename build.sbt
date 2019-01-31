@@ -1,8 +1,14 @@
+enablePlugins(JavaAppPackaging, AshScriptPlugin)
+
 name := "akka_http"
 
 version := "0.1"
 
 scalaVersion := "2.12.8"
+
+dockerBaseImage := "openjdk:8-jre-alpine"
+packageName in Docker := "akka_http"
+
 val circeVersion = "0.10.0"
 
 libraryDependencies ++= Seq(
