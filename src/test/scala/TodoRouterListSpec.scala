@@ -17,7 +17,7 @@ class TodoRouterListSpec extends WordSpec with Matchers with ScalatestRouteTest 
       val router = new TodoRouter(repository)
 
       // send GET request
-      Get("/todos") ~> router.route -> check {
+      Get("/todos") ~> router.route ~> check {
         // we expect response 200
         status shouldBe StatusCodes.OK
         val response = responseAs[Seq[Todo]]
@@ -31,7 +31,7 @@ class TodoRouterListSpec extends WordSpec with Matchers with ScalatestRouteTest 
       val router = new TodoRouter(repository)
 
       // send GET request
-      Get("/todos/done") ~> router.route -> check {
+      Get("/todos/done") ~> router.route ~> check {
         // we expect response 200
         status shouldBe StatusCodes.OK
         val response = responseAs[Seq[Todo]]
@@ -45,7 +45,7 @@ class TodoRouterListSpec extends WordSpec with Matchers with ScalatestRouteTest 
       val router = new TodoRouter(repository)
 
       // send GET request
-      Get("/todos/pending") ~> router.route -> check {
+      Get("/todos/pending") ~> router.route ~> check {
         // we expect response 200
         status shouldBe StatusCodes.OK
         val response = responseAs[Seq[Todo]]
@@ -59,7 +59,7 @@ class TodoRouterListSpec extends WordSpec with Matchers with ScalatestRouteTest 
       val router = new TodoRouter(repository)
 
       // send GET request
-      Get("/todos") ~> router.route -> check {
+      Get("/todos") ~> router.route ~> check {
         // we expect response 500
         status shouldBe ApiError.generic.statusCode
         val resp = responseAs[String]
@@ -72,7 +72,7 @@ class TodoRouterListSpec extends WordSpec with Matchers with ScalatestRouteTest 
       val router = new TodoRouter(repository)
 
       // send GET request
-      Get("/todos/done") ~> router.route -> check {
+      Get("/todos/done") ~> router.route ~> check {
         // we expect response 500
         status shouldBe ApiError.generic.statusCode
         val resp = responseAs[String]
@@ -86,7 +86,7 @@ class TodoRouterListSpec extends WordSpec with Matchers with ScalatestRouteTest 
       val router = new TodoRouter(repository)
 
       // send GET request
-      Get("/todos/pending") ~> router.route -> check {
+      Get("/todos/pending") ~> router.route ~> check {
         // we expect response 500
         status shouldBe ApiError.generic.statusCode
         val resp = responseAs[String]
