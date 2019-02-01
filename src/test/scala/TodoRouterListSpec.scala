@@ -7,8 +7,8 @@ class TodoRouterListSpec extends WordSpec with Matchers with ScalatestRouteTest 
   import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
   import io.circe.generic.auto._
 
-  private val doneTodo = Todo("2", "Temple", "Go to the temple", done = false)
-  private val pendingTodo = Todo("3", "MA", "Go to the mangala-arati", done = true)
+  private val doneTodo = Todo("2", "Temple", "Go to the temple", done = true)
+  private val pendingTodo = Todo("3", "MA", "Go to the mangala-arati", done = false)
   private val todos = Seq(doneTodo, pendingTodo)
 
   "TodoRouter" should {
@@ -36,7 +36,7 @@ class TodoRouterListSpec extends WordSpec with Matchers with ScalatestRouteTest 
         status shouldBe StatusCodes.OK
         val response = responseAs[Seq[Todo]]
         // check response content
-        response shouldBe doneTodo
+        response shouldBe Seq(doneTodo)
       }
     }
 
@@ -50,7 +50,7 @@ class TodoRouterListSpec extends WordSpec with Matchers with ScalatestRouteTest 
         status shouldBe StatusCodes.OK
         val response = responseAs[Seq[Todo]]
         // check response content
-        response shouldBe pendingTodo
+        response shouldBe Seq(pendingTodo)
       }
     }
 

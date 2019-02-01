@@ -30,7 +30,7 @@ class TodoRouterUpdateSpec extends WordSpec with Matchers with ScalatestRouteTes
         status shouldBe StatusCodes.OK
         val resp = responseAs[Todo]
         resp.title shouldBe testUpdateTodo.title.get
-        resp.description shouldBe testUpdateTodo.description
+        resp.description shouldBe testTodo.description
         resp.done shouldBe testUpdateTodo.done.get
       }
     }
